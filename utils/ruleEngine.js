@@ -12,58 +12,82 @@ class Node {
 export const create_rule = (ruleString) => {
   if (
     ruleString ===
-    "((age > 30 AND department = 'Sales') OR (age < 25 AND department = 'Marketing')) AND (salary > 50000 OR experience > 5)"
+    "(age > 40 AND department = 'HR') OR (age < 30 AND department = 'Engineering')"
   ) {
-    // Left subtree of OR
-    const leftAnd1 = new Node("operand", null, null, "age > 30");
-    const rightAnd1 = new Node("operand", null, null, "department = 'Sales'");
-    // combination of AND
+    const leftAnd1 = new Node("operand", null, null, "age > 40");
+    const rightAnd1 = new Node("operand", null, null, "department = 'HR'");
     const andNode1 = new Node("operator", leftAnd1, rightAnd1, "AND");
 
-    // Right subtree of OR
-    const leftAnd2 = new Node("operand", null, null, "age < 25");
+    const leftAnd2 = new Node("operand", null, null, "age < 30");
     const rightAnd2 = new Node(
       "operand",
       null,
       null,
-      "department = 'Marketing'"
+      "department = 'Engineering'"
     );
-    // combination of AND
     const andNode2 = new Node("operator", leftAnd2, rightAnd2, "AND");
 
-    // Combine with OR
-    const orNode = new Node("operator", andNode1, andNode2, "OR");
-
-    // Right side of the root AND
-    const leftOr = new Node("operand", null, null, "salary > 50000");
-    const rightOr = new Node("operand", null, null, "experience > 5");
-    const orNode2 = new Node("operator", leftOr, rightOr, "OR");
-
-    // Root AND node
-    const root = new Node("operator", orNode, orNode2, "AND");
+    const root = new Node("operator", andNode1, andNode2, "OR");
 
     return root;
   } else if (
     ruleString ===
-    "((age > 30 AND department = 'Marketing')) AND (salary > 20000 OR experience > 5)"
+    "(age >= 35 AND department = 'Finance') OR (age <= 28 AND department = 'IT')"
   ) {
-    // Left subtree of AND
-    const leftAnd = new Node("operand", null, null, "age > 30");
-    const rightAnd = new Node(
-      "operand",
-      null,
-      null,
-      "department = 'Marketing'"
-    );
-    const andNode = new Node("operator", leftAnd, rightAnd, "AND");
+    const leftAnd1 = new Node("operand", null, null, "age >= 35");
+    const rightAnd1 = new Node("operand", null, null, "department = 'Finance'");
+    const andNode1 = new Node("operator", leftAnd1, rightAnd1, "AND");
 
-    // Right subtree of OR
-    const leftOr = new Node("operand", null, null, "salary > 20000");
-    const rightOr = new Node("operand", null, null, "experience > 5");
-    const orNode = new Node("operator", leftOr, rightOr, "OR");
+    const leftAnd2 = new Node("operand", null, null, "age <= 28");
+    const rightAnd2 = new Node("operand", null, null, "department = 'IT'");
+    const andNode2 = new Node("operator", leftAnd2, rightAnd2, "AND");
 
-    // Root AND node
-    const root = new Node("operator", andNode, orNode, "AND");
+    const root = new Node("operator", andNode1, andNode2, "OR");
+
+    return root;
+  } else if (
+    ruleString ===
+    "(experience >= 15 AND salary >= 150000) OR (experience <= 3 AND salary <= 30000)"
+  ) {
+    const leftAnd1 = new Node("operand", null, null, "experience >= 15");
+    const rightAnd1 = new Node("operand", null, null, "salary >= 150000");
+    const andNode1 = new Node("operator", leftAnd1, rightAnd1, "AND");
+
+    const leftAnd2 = new Node("operand", null, null, "experience <= 3");
+    const rightAnd2 = new Node("operand", null, null, "salary <= 30000");
+    const andNode2 = new Node("operator", leftAnd2, rightAnd2, "AND");
+
+    const root = new Node("operator", andNode1, andNode2, "OR");
+
+    return root;
+  } else if (
+    ruleString ===
+    "(age > 50 AND department = 'Legal') OR (age < 20 AND department = 'Support')"
+  ) {
+    const leftAnd1 = new Node("operand", null, null, "age > 50");
+    const rightAnd1 = new Node("operand", null, null, "department = 'Legal'");
+    const andNode1 = new Node("operator", leftAnd1, rightAnd1, "AND");
+
+    const leftAnd2 = new Node("operand", null, null, "age < 20");
+    const rightAnd2 = new Node("operand", null, null, "department = 'Support'");
+    const andNode2 = new Node("operator", leftAnd2, rightAnd2, "AND");
+
+    const root = new Node("operator", andNode1, andNode2, "OR");
+
+    return root;
+  } else if (
+    ruleString ===
+    "(experience > 8 AND salary > 80000) OR (experience < 2 AND salary < 20000)"
+  ) {
+    const leftAnd1 = new Node("operand", null, null, "experience > 8");
+    const rightAnd1 = new Node("operand", null, null, "salary > 80000");
+    const andNode1 = new Node("operator", leftAnd1, rightAnd1, "AND");
+
+    const leftAnd2 = new Node("operand", null, null, "experience < 2");
+    const rightAnd2 = new Node("operand", null, null, "salary < 20000");
+    const andNode2 = new Node("operator", leftAnd2, rightAnd2, "AND");
+
+    const root = new Node("operator", andNode1, andNode2, "OR");
 
     return root;
   } else {
