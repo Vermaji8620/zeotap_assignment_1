@@ -66,26 +66,20 @@ export const create_rule = (ruleString) => {
     const root = new Node("operator", andNode, orNode, "AND");
 
     return root;
+  } else {
+    throw new Error("Unsupported rule string format");
   }
 };
 
-// verification of ast made using LEFT ORDER TRAVERSAL
-export const showast = (astcome) => {
-  if (!astcome) return;
-  showast(astcome.left);
-  console.log(astcome.value);
-  showast(astcome.right);
-};
-
 // combine function
-export const combine_rules = (rules) => {
+export const combine_rules = (rules, operator = "AND") => {
   let combinedAst = null;
   rules.forEach((ruleString) => {
     const ast = create_rule(ruleString);
     if (!combinedAst) {
       combinedAst = ast;
     } else {
-      combinedAst = new Node("operator", combinedAst, ast, "AND");
+      combinedAst = new Node("operator", combinedAst, ast, operator);
     }
   });
   return combinedAst;

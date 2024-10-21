@@ -8,11 +8,14 @@ const nodeSchema = new Schema({
   right: { type: Schema.Types.Mixed, default: null },
 });
 
-const ruleSchema = new Schema({
-  ruleString: String,
-  ast: nodeSchema,
-  description: String,
-  createdAt: { type: Date, default: Date.now },
-});
+const ruleSchema = new Schema(
+  {
+    ruleString: String,
+    ast: nodeSchema,
+  },
+  {
+    timestamps: true,
+  }
+);
 
 export const Rule = mongoose.model("Rule", ruleSchema);
