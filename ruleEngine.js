@@ -118,4 +118,3 @@ function evaluate_condition(condition, data) {
       return false;
   }
 }
-
