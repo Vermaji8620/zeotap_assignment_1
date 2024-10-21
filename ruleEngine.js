@@ -1,5 +1,5 @@
 // the data structure for the rule engine, is designed as follows:
-export class Node {
+class Node {
   constructor(type, left = null, right = null, value = null) {
     this.type = type;
     this.left = left;
@@ -69,6 +69,14 @@ export const create_rule = (ruleString) => {
   }
 };
 
+// verification of ast made using LEFT ORDER TRAVERSAL
+export const showast = (astcome) => {
+  if (!astcome) return;
+  showast(astcome.left);
+  console.log(astcome.value);
+  showast(astcome.right);
+};
+
 // combine function
 export const combine_rules = (rules) => {
   let combinedAst = null;
@@ -96,6 +104,7 @@ export const evaluate_rule = (ast, data) => {
   return false;
 };
 
+// function for operator inside te evaluate_rule
 function evaluate_condition(condition, data) {
   const [attribute, operator, value] = condition.split(" ");
   switch (operator) {
