@@ -83,3 +83,30 @@ export const combine_rules = (rules) => {
   return combinedAst;
 };
 
+// evaluation condition done for operator and operands
+export const evaluate_rule = (ast, data) => {
+  if (ast.type === "operand") {
+    return evaluate_condition(ast.value, data);
+  } else if (ast.type === "operator") {
+    const leftResult = evaluate_rule(ast.left, data);
+    const rightResult = evaluate_rule(ast.right, data);
+    if (ast.value === "AND") return leftResult && rightResult;
+    else if (ast.value === "OR") return leftResult || rightResult;
+  }
+  return false;
+};
+
+function evaluate_condition(condition, data) {
+  const [attribute, operator, value] = condition.split(" ");
+  switch (operator) {
+    case "<":
+      return data[attribute] < parseInt(value);
+    case ">":
+      return data[attribute] > parseInt(value);
+    case "=":
+      return data[attribute] === value.replace(/'/g, "");
+    default:
+      return false;
+  }
+}
+
