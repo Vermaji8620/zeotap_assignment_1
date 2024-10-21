@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "mongoose": "^8.7.2",
     "zeotap_assignment_1": "file:"
   }
 }
