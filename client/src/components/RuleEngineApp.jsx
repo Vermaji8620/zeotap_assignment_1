@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const RuleEngineApp = () => {
   const [ruleString, setRuleString] = useState("");
@@ -11,16 +12,32 @@ const RuleEngineApp = () => {
   });
   const [evaluationResult, setEvaluationResult] = useState(null);
 
+  useEffect(() => {
+    (async () => {
+      const response = await axios.get("http://localhost:3000/api/rule/getAll");
+      setRules(response.data);
+    })();
+  }, [rules.length]);
+
   // Handle Rule Submission
   const handleRuleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate API call
-    const newRule = {
-      ruleString,
-      id: rules.length + 1,
-    };
-    setRules([...rules, newRule]);
-    setRuleString("");
+    try {
+      const resp = await axios.post("http://localhost:3000/api/rule/create", {
+        ruleString,
+      });
+      if (resp.status == 201 && resp.data && resp.data.message) {
+        alert(resp.data.message);
+      } else if (resp.status == 500 && resp.data && resp.data.error) {
+        alert(resp.data.error);
+      } else {
+        alert("Error creating rule");
+      }
+    } catch (error) {
+      alert("Error creating rule", error);
+    } finally {
+      setRuleString("");
+    }
   };
 
   // Handle Rule Testing (You'd replace this with the actual API logic)
@@ -42,7 +59,7 @@ const RuleEngineApp = () => {
               onChange={(e) => setRuleString(e.target.value)}
               className="w-full p-3 bg-transparent border rounded mb-3"
               rows="3"
-              placeholder="Enter rule here, e.g., (age > 30 AND department = 'Sales')"
+              placeholder="Copy and paste from the below preferred rules"
             ></textarea>
             <button
               type="submit"
@@ -52,21 +69,50 @@ const RuleEngineApp = () => {
             </button>
           </form>
         </div>
+        {/* Preferred rules to copy */}
+        <div className="mb-8">
+          <h2 className="text-xl font-semibold mb-2 underline">
+            Preferred Rules
+          </h2>
+          <p className="mb-4">
+            (age &gt; 40 AND department = &apos;HR&apos;) OR (age &lt; 30 AND
+            department = &apos;Engineering&apos;)
+          </p>
+          <p className="mb-4">
+            (age &gt;= 35 AND department = &apos;Finance&apos;) OR (age &lt;= 28
+            AND department = &apos;IT&apos;)
+          </p>
+          <p className="mb-4">
+            (experience &gt;= 15 AND salary &gt;= 150000) OR (experience &lt;= 3
+            AND salary &lt;= 30000)
+          </p>
+          <p className="mb-4">
+            (age &gt; 50 AND department = &apos;Legal&apos;) OR (age &lt; 20 AND
+            department = &apos;Support&apos;)
+          </p>
+
+          <p className="mb-4">
+            (experience &gt; 8 AND salary &gt; 80000) OR (experience &lt; 2 AND
+            salary &lt; 20000)
+          </p>
+        </div>
 
         {/* Existing Rules */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">Existing Rules</h2>
+          <h2 className="text-xl font-semibold mb-2 underline">
+            Existing Rules in Database
+          </h2>
           <ul className="divide-y divide-gray-200">
             {rules.length > 0 ? (
               rules.map((rule) => (
                 <li
-                  key={rule.id}
+                  key={rule._id}
                   className="py-2 flex justify-between items-center"
                 >
                   <span>{rule.ruleString}</span>
-                  <button className="text-red-500 hover:underline">
+                  {/* <button className="text-red-500 hover:underline">
                     Delete
-                  </button>
+                  </button> */}
                 </li>
               ))
             ) : (

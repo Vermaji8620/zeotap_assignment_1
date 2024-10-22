@@ -9,7 +9,7 @@ import {
 export const saveRule = async (req, res) => {
   const { ruleString } = req.body;
   const ast = create_rule(ruleString);
-
+  if (ast == null) return res.status(500).json({ error: "Error saving rule" });
   const newRule = new Rule({
     ruleString,
     ast,
@@ -17,7 +17,9 @@ export const saveRule = async (req, res) => {
   // database saving doing here
   try {
     const savedRule = await newRule.save();
-    res.json({ message: "Rule saved successfully", rule: savedRule });
+    res
+      .status(201)
+      .json({ message: "Rule saved successfully", rule: savedRule });
   } catch (err) {
     res.status(500).json({ error: "Error saving rule" });
   }
@@ -32,7 +34,7 @@ export const evaluateRule = async (req, res) => {
     if (!rule) return res.status(404).json({ error: "Rule not found" });
 
     const result = evaluate_rule(rule.ast, data);
-    res.json({ result });
+    res.status(201).json({ result });
   } catch (err) {
     res.status(500).json({ error: "Error evaluating rule" });
   }
@@ -58,7 +60,18 @@ export const combineRules = async (req, res) => {
 
   try {
     const savedRule = await combinedRule.save();
-    res.json({ message: "Combined rule saved successfully", rule: savedRule });
+    res
+      .status(201)
+      .json({ message: "Combined rule saved successfully", rule: savedRule });
+  } catch (err) {
+    res.status(500).json({ error: "Error saving combined rule" });
+  }
+};
+
+export const getAllRules = async (req, res) => {
+  try {
+    const getallRules = await Rule.find();
+    res.status(201).json(getallRules);
   } catch (err) {
     res.status(500).json({ error: "Error saving combined rule" });
   }

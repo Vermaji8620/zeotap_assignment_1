@@ -91,7 +91,7 @@ export const create_rule = (ruleString) => {
 
     return root;
   } else {
-    throw new Error("Unsupported rule string format");
+    return null;
   }
 };
 
