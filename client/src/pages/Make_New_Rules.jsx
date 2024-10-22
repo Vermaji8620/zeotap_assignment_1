@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const RuleEngineApp = () => {
+  const navigate = useNavigate();
   const [ruleString, setRuleString] = useState("");
   const [rules, setRules] = useState([]);
-  const [testData, setTestData] = useState({
-    age: "",
-    department: "",
-    salary: "",
-    experience: "",
-  });
-  const [evaluationResult, setEvaluationResult] = useState(null);
+  // const [testData, setTestData] = useState({
+  //   age: "",
+  //   department: "",
+  //   salary: "",
+  //   experience: "",
+  // });
+  // const [evaluationResult, setEvaluationResult] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -40,12 +42,12 @@ const RuleEngineApp = () => {
     }
   };
 
-  // Handle Rule Testing (You'd replace this with the actual API logic)
-  const handleTestSubmit = (e) => {
-    e.preventDefault();
-    // Simulate rule evaluation (simple logic for now)
-    setEvaluationResult("Eligible");
-  };
+  // // Handle Rule Testing (You'd replace this with the actual API logic)
+  // const handleTestSubmit = (e) => {
+  //   e.preventDefault();
+  //   // Simulate rule evaluation (simple logic for now)
+  //   setEvaluationResult("Eligible");
+  // };
 
   return (
     <div className="min-h-screen p-5">
@@ -122,7 +124,8 @@ const RuleEngineApp = () => {
         </div>
 
         {/* Rule Testing Form */}
-        <div>
+
+        {/* <div>
           <h2 className="text-xl font-semibold mb-2">Test Rule</h2>
           <form
             onSubmit={handleTestSubmit}
@@ -177,6 +180,15 @@ const RuleEngineApp = () => {
               <span className="text-green-600">{evaluationResult}</span>
             </div>
           )}
+        </div> */}
+
+        <div
+          className="flex float-right bg-blue-400 p-2 rounded-md"
+          onClick={() => {
+            navigate("/combine_rules");
+          }}
+        >
+          <button className="">Combine Rules --{">"}</button>
         </div>
       </div>
     </div>

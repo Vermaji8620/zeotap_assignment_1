@@ -51,18 +51,13 @@ export const combineRules = async (req, res) => {
 
   // Combine the rules using the specified operator (default to "AND")
   const combinedAST = combine_rules(ruleStrings, operator || "AND");
-
-  const combinedRule = new Rule({
-    ruleString: ruleStrings.join(` ${operator || "AND"} `),
-    ast: combinedAST,
-    description: "Combined rule",
-  });
-
+  const ruleString = ruleStrings.join(` ${operator || "AND"} `);
   try {
-    const savedRule = await combinedRule.save();
-    res
-      .status(201)
-      .json({ message: "Combined rule saved successfully", rule: savedRule });
+    res.status(201).json({
+      message: "Combined rule saved successfully",
+      ruleString,
+      ast: combinedAST,
+    });
   } catch (err) {
     res.status(500).json({ error: "Error saving combined rule" });
   }
