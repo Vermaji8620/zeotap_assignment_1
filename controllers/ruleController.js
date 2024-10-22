@@ -34,7 +34,7 @@ export const evaluateRule = async (req, res) => {
     if (!rule) return res.status(500).json({ error: "Rule not found" });
 
     const result = evaluate_rule(rule.ast, data);
-    res.status(201).json({ result });
+    res.status(201).json({ message: "Rule evaluated successfully", result });
   } catch (err) {
     res.status(500).json({ error: "Error evaluating rule" });
   }

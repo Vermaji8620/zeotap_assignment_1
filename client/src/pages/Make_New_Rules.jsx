@@ -6,13 +6,6 @@ const RuleEngineApp = () => {
   const navigate = useNavigate();
   const [ruleString, setRuleString] = useState("");
   const [rules, setRules] = useState([]);
-  // const [testData, setTestData] = useState({
-  //   age: "",
-  //   department: "",
-  //   salary: "",
-  //   experience: "",
-  // });
-  // const [evaluationResult, setEvaluationResult] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -41,13 +34,6 @@ const RuleEngineApp = () => {
       setRuleString("");
     }
   };
-
-  // // Handle Rule Testing (You'd replace this with the actual API logic)
-  // const handleTestSubmit = (e) => {
-  //   e.preventDefault();
-  //   // Simulate rule evaluation (simple logic for now)
-  //   setEvaluationResult("Eligible");
-  // };
 
   return (
     <div className="min-h-screen p-5">
@@ -122,65 +108,6 @@ const RuleEngineApp = () => {
             )}
           </ul>
         </div>
-
-        {/* Rule Testing Form */}
-
-        {/* <div>
-          <h2 className="text-xl font-semibold mb-2">Test Rule</h2>
-          <form
-            onSubmit={handleTestSubmit}
-            className="grid grid-cols-1 md:grid-cols-2 gap-4"
-          >
-            <input
-              type="number"
-              placeholder="Age"
-              value={testData.age}
-              onChange={(e) =>
-                setTestData({ ...testData, age: e.target.value })
-              }
-              className="p-2 bg-transparent border rounded"
-            />
-            <input
-              type="text"
-              placeholder="Department"
-              value={testData.department}
-              onChange={(e) =>
-                setTestData({ ...testData, department: e.target.value })
-              }
-              className="p-2 bg-transparent border rounded"
-            />
-            <input
-              type="number"
-              placeholder="Salary"
-              value={testData.salary}
-              onChange={(e) =>
-                setTestData({ ...testData, salary: e.target.value })
-              }
-              className="p-2 bg-transparent border rounded"
-            />
-            <input
-              type="number"
-              placeholder="Experience"
-              value={testData.experience}
-              onChange={(e) =>
-                setTestData({ ...testData, experience: e.target.value })
-              }
-              className="p-2 bg-transparent border rounded"
-            />
-            <button
-              type="submit"
-              className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 col-span-1 md:col-span-2"
-            >
-              Test Rule
-            </button>
-          </form>
-          {evaluationResult && (
-            <div className="mt-4 text-lg font-semibold">
-              Evaluation Result:{" "}
-              <span className="text-green-600">{evaluationResult}</span>
-            </div>
-          )}
-        </div> */}
 
         <div
           className="flex float-right bg-blue-400 p-2 rounded-md"

@@ -3,6 +3,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const Evaluate_Rules = () => {
+  const [evaluationResult, setEvaluationResult] = useState("");
+  useEffect(() => {
+    const cleartime = setTimeout(() => {
+      setEvaluationResult("");
+    }, 2500);
+    return () => {
+      clearTimeout(cleartime);
+    };
+  }, [evaluationResult]);
   const navigate = useNavigate();
   const [ruleString, setRuleString] = useState("");
   const [rules, setRules] = useState([]);
@@ -19,8 +28,8 @@ const Evaluate_Rules = () => {
     })();
   }, [rules.length]);
 
-  // Handle Rule Testing (You'd replace this with the actual API logic)
-  const handleTestSubmit = (e) => {
+  // Handle Rule Testing
+  const handleTestSubmit = async (e) => {
     e.preventDefault();
     if (
       !ruleString ||
@@ -30,6 +39,26 @@ const Evaluate_Rules = () => {
       !testData.experience
     ) {
       return alert("All fields are required");
+    }
+    try {
+      const resp = await axios.post("http://localhost:3000/api/rule/evaluate", {
+        ruleString,
+        data: testData,
+      });
+      if (resp.status == 201 && resp.data) {
+        setEvaluationResult(String(resp.data.result));
+        alert(resp.data.message);
+      } else if (resp.status == 500 && resp.data) {
+        setEvaluationResult(String(resp.data.error));
+        alert(resp.data.error);
+      } else {
+        setEvaluationResult("Some error occurred");
+        alert("Rule cannot be evaluated, please try again");
+      }
+    } catch (err) {
+      setEvaluationResult("Unexpected error occurred");
+      alert("Please input correct Rule");
+      console.log(err);
     }
   };
 
@@ -124,6 +153,14 @@ const Evaluate_Rules = () => {
               Test Rule
             </button>
           </form>
+          {
+            // evaluationResult && (
+            <div className="mt-4 text-lg font-semibold">
+              Evaluation Result:{" "}
+              <span className="text-green-600">{evaluationResult}</span>
+            </div>
+            // )
+          }
         </div>
 
         <div
