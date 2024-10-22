@@ -1,5 +1,10 @@
 import express from "express";
-import { saveRule, evaluateRule, combineRules, getAllRules } from "../controllers/ruleController.js";
+import {
+  saveRule,
+  evaluateRule,
+  combineRules,
+  getAllRules,
+} from "../controllers/ruleController.js";
 
 const router = express.Router();
 
@@ -10,9 +15,9 @@ router.post("/rule/create", saveRule);
 router.post("/rule/evaluate", evaluateRule);
 
 // Route to combine rules
-router.post('/rule/combine', combineRules)
+router.post("/rule/combine", combineRules);
 
 // Route to get all the rules
-router.get('/rule/getAll', getAllRules)
+router.get("/rule/getAll", getAllRules);
 
 export default router;
