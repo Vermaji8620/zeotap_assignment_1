@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import EveryItem from "../components/EveryItem";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import ASTVisualizer from "../components/ASTVisualizer";
 
 const Combine_Rules = () => {
+  const [ast, setAst] = useState(null);
   const navigate = useNavigate();
   const [rules, setRules] = useState([]);
   const [combinedStringtoDisplay, setCombinedStringtoDisplay] = useState("");
@@ -37,6 +39,7 @@ const Combine_Rules = () => {
       if (resp.status == 201 && resp.data && resp.data.message) {
         alert(resp.data.message);
         setCombinedStringtoDisplay(resp.data.ruleString);
+        setAst(resp.data.ast);
       } else if (resp.status == 500 && resp.data && resp.data.error) {
         alert(resp.data.error);
       }
@@ -111,6 +114,13 @@ const Combine_Rules = () => {
             </div>
           </div>
         </div>
+
+        {ast && (
+          <div className="mt-4">
+            <h3>AST Visualization:</h3>
+            <ASTVisualizer ast={ast} />
+          </div>
+        )}
 
         <div
           className="flex float-left bg-blue-400 p-2 rounded-md"
