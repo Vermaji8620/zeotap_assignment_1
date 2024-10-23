@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 const Evaluate_Rules = () => {
   const [evaluationResult, setEvaluationResult] = useState("");
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     const cleartime = setTimeout(() => {
       setEvaluationResult("");
@@ -31,6 +32,7 @@ const Evaluate_Rules = () => {
   // Handle Rule Testing
   const handleTestSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     if (
       !ruleString ||
       !testData.age ||
@@ -38,6 +40,7 @@ const Evaluate_Rules = () => {
       !testData.salary ||
       !testData.experience
     ) {
+      setLoading(false);
       return alert("All fields are required");
     }
     try {
@@ -59,6 +62,8 @@ const Evaluate_Rules = () => {
       setEvaluationResult("Unexpected error occurred");
       alert("Please input correct Rule");
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -67,14 +72,14 @@ const Evaluate_Rules = () => {
       <div className="max-w-4xl mx-auto shadow-lg rounded-lg p-6">
         {/* Rule Creation Form */}
         <div className="mb-8">
-          <h2 className="text-xl font-semibold mb-2">Create a Rule</h2>
+          <h2 className="text-xl font-semibold mb-2">Enter Rule to test</h2>
           <div>
             <textarea
               value={ruleString}
               onChange={(e) => setRuleString(e.target.value)}
               className="w-full p-3 bg-transparent border rounded mb-3"
               rows="3"
-              placeholder="Copy and paste from the below preferred rules"
+              placeholder="Copy and paste from the below preferred rules to test"
             ></textarea>
           </div>
         </div>
@@ -148,16 +153,17 @@ const Evaluate_Rules = () => {
             />
             <button
               type="submit"
+              disabled={loading}
               className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 col-span-1 md:col-span-2"
             >
-              Test Rule
+              {loading ? <div>Testing Rule...</div> : <div>Test Rule</div>}
             </button>
           </form>
           {
             // evaluationResult && (
             <div className="mt-4 text-lg font-semibold">
               Evaluation Result:{" "}
-              <span className="text-green-600">{evaluationResult}</span>
+              <span className="text-white-600">{evaluationResult}</span>
             </div>
             // )
           }

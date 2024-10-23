@@ -3,20 +3,30 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const RuleEngineApp = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [ruleString, setRuleString] = useState("");
   const [rules, setRules] = useState([]);
 
+  const getAllEntriesInDBfunc = async () => {
+    const response = await axios.get("http://localhost:3000/api/rule/getAll");
+    setRules(response.data);
+  };
   useEffect(() => {
-    (async () => {
-      const response = await axios.get("http://localhost:3000/api/rule/getAll");
-      setRules(response.data);
-    })();
+    getAllEntriesInDBfunc();
+    const interv = setInterval(() => {
+      getAllEntriesInDBfunc();
+    }, 5000);
+
+    return () => {
+      clearInterval(interv);
+    };
   }, [rules.length]);
 
   // Handle Rule Submission
   const handleRuleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const resp = await axios.post("http://localhost:3000/api/rule/create", {
         ruleString,
@@ -31,6 +41,7 @@ const RuleEngineApp = () => {
     } catch (error) {
       alert("Error creating rule", error);
     } finally {
+      setLoading(false);
       setRuleString("");
     }
   };
@@ -51,9 +62,10 @@ const RuleEngineApp = () => {
             ></textarea>
             <button
               type="submit"
+              disabled={loading}
               className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
             >
-              Save Rule
+              {loading ? <div>Saving...</div> : <div>Save rule</div>}
             </button>
           </form>
         </div>
