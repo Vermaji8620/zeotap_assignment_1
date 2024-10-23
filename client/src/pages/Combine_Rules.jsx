@@ -14,6 +14,7 @@ const Combine_Rules = () => {
     console.log(allelementsToCombine);
   }, [allelementsToCombine]);
 
+  // logic for adding or deleting items in the array, when a particular item is selected
   const handleRuleSelect = (ruleString, isSelected) => {
     setAllelementsToCombine((prevSelectedRules) => {
       if (isSelected) {
@@ -36,6 +37,7 @@ const Combine_Rules = () => {
         ruleStrings: allelementsToCombine,
         operator: operator_type,
       });
+      // handling of the error and alerting accordingly
       if (resp.status == 201 && resp.data && resp.data.message) {
         alert(resp.data.message);
         setCombinedStringtoDisplay(resp.data.ruleString);
@@ -54,6 +56,7 @@ const Combine_Rules = () => {
       setRules(response.data);
     })();
   }, [rules.length]);
+
   return (
     <div>
       <div className="max-w-3xl mx-auto p-8 shadow-md rounded-lg">
@@ -63,6 +66,7 @@ const Combine_Rules = () => {
           <label className="block text-lg font-medium mb-2">
             Select Rules to Combine:
           </label>
+          {/* logic for appending every item from database */}
           <div className="flex flex-col space-y-3">
             {rules && rules.length > 0 ? (
               rules.map((rule, index) => (
@@ -100,6 +104,7 @@ const Combine_Rules = () => {
           </div>
         </div>
 
+        {/* for displaying the combined rule */}
         <div className="mb-6">
           <label className="block text-lg font-medium mb-2">
             Combined Rule:
@@ -115,6 +120,7 @@ const Combine_Rules = () => {
           </div>
         </div>
 
+        {/* for displaying the ast */}
         {ast && (
           <div className="mt-4">
             <h3>AST Visualization:</h3>

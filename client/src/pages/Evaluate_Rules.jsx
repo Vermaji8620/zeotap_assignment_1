@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 const Evaluate_Rules = () => {
   const [evaluationResult, setEvaluationResult] = useState("");
   const [loading, setLoading] = useState(false);
+
+  // for making the evaluated result disappear
   useEffect(() => {
     const cleartime = setTimeout(() => {
       setEvaluationResult("");
@@ -22,6 +24,8 @@ const Evaluate_Rules = () => {
     salary: "",
     experience: "",
   });
+
+  // getting all the entries from the database
   useEffect(() => {
     (async () => {
       const response = await axios.get("http://localhost:3000/api/rule/getAll");
@@ -43,6 +47,8 @@ const Evaluate_Rules = () => {
       setLoading(false);
       return alert("All fields are required");
     }
+
+    // evaluation logic
     try {
       const resp = await axios.post("http://localhost:3000/api/rule/evaluate", {
         ruleString,

@@ -8,6 +8,7 @@ const RuleEngineApp = () => {
   const [ruleString, setRuleString] = useState("");
   const [rules, setRules] = useState([]);
 
+  // func for getting all the entries from the database
   const getAllEntriesInDBfunc = async () => {
     const response = await axios.get("http://localhost:3000/api/rule/getAll");
     setRules(response.data);
@@ -110,9 +111,6 @@ const RuleEngineApp = () => {
                   className="py-2 flex justify-between items-center"
                 >
                   <span>{rule.ruleString}</span>
-                  {/* <button className="text-red-500 hover:underline">
-                    Delete
-                  </button> */}
                 </li>
               ))
             ) : (
